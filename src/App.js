@@ -1,8 +1,9 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import './App.css';
-import CatSpinner from './CatSpinner'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-const smallCat = require('./cat_small.png')
+import './App.css';
+import CatList from './components/CatList'
+import CatSpinner from './components/spinner/CatSpinner'
+import CatButton from './components/button/CatButton';
 
 const App= () => {
   const [facts, setFacts] = useState([])
@@ -34,31 +35,16 @@ const App= () => {
   },[])
 
   return loaded 
-    ? ( errorMsg 
-      ? <p className="app error-msg">Something went wrong</p>
-      : (
-        <div className="app">
-          <Fragment>
-            {facts.map(cat => {
-              return (
-                <p key={cat._id}>
-                  <a href={`https://cat-fact.herokuapp.com/facts/${cat._id}`}>
-                    {`"${cat.text}"`}
-                  </a>
-                </p>
-              )
-            })}
-          </Fragment>
-
-          <Fragment>
-            <button onClick={fetch5cats}>
-              Meeoowwrre cat facts 
-              <img src={smallCat} alt="small cat" />
-            </button>
-          </Fragment>
-        </div>
+    ? ( 
+      errorMsg 
+        ? <p className="app error-msg">Something went wrong</p>
+        : (
+          <div className="app">
+            <CatList facts={facts} />
+            <CatButton fetch5cats={fetch5cats} />
+          </div>
+        )
       )
-    ) 
     : <CatSpinner/>
 }
 
