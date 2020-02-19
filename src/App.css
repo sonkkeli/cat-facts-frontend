@@ -1,31 +1,58 @@
-.App {
+.app {
+  padding: 5% 10% 0 10%;
   text-align: center;
+  font-family: Consolas, 'Comic Sans MS', Arial, Helvetica, sans-serif;
+  font-size: 18px;
+}
+
+.error-msg {
+  background-color: #d895ba;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #17a2b8;
+  background-color:lightgray;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+button {
+  border: 0;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 30px;
+  font-family: Consolas;
+}
+
+button:hover {
+  background-color: #95c9db;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  padding-top: 100px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 1s linear;
   }
 }
 
-.App-header {
-  background-color: #282c34;
+.cat-spinner {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
