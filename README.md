@@ -1,4 +1,8 @@
-# Running the project locally
+## App available on Heroku
+
+https://cat-facts-frontend.herokuapp.com/
+
+## Running the project locally
 
 First install the node_modules with `npm install`. Then run `npm start` to run the project.
 
