@@ -1,44 +1,44 @@
-import React from 'react'
-import { render, act, wait, fireEvent } from '@testing-library/react'
-import App from './App'
-import { catfacts5 } from './test-data/testdata'
+import React from 'react';
+import { render, act, wait, fireEvent } from '@testing-library/react';
+import App from './App';
+import { catfacts5 } from './test-data/testdata';
 
-import * as axios from 'axios'
-jest.mock('axios')
+import * as axios from 'axios';
+jest.mock('axios');
 
 describe('<App />', () => {
   test('renders the cat facts when successful request', async () => {
     let c;
-    const data = { data: catfacts5 }
+    const data = { data: catfacts5 };
     axios.get.mockImplementation(() => Promise.resolve(data));
 
     act(() => {
-      c = render(<App />)
-    })
+      c = render(<App />);
+    });
     await wait(() => {
-      expect(c.getAllByTestId('cat-link').length).toBe(5)
-      expect(axios.get).toHaveBeenCalledTimes(1)
-    })
+      expect(c.getAllByTestId('cat-link').length).toBe(5);
+      expect(axios.get).toHaveBeenCalledTimes(1);
+    });
 
     act(() => {
-      fireEvent.click(c.getByTestId('catbutton'))
-    })    
+      fireEvent.click(c.getByTestId('catbutton'));
+    });
     await wait(() => {
-      expect(axios.get).toHaveBeenCalledTimes(2)
-    })
-  })
+      expect(axios.get).toHaveBeenCalledTimes(2);
+    });
+  });
 
   test('testing rejected request', async () => {
     let c;
     axios.get.mockImplementation(() => Promise.reject(new Error('Async error')));
 
     act(() => {
-      c = render(<App />)
-    })
+      c = render(<App />);
+    });
     await wait(() => {
-      expect(c.container.querySelector('error-msg')).toBeDefined()
-      expect(c.queryByTestId('cat-link')).toBeNull()
-      expect(axios.get).toHaveBeenCalledTimes(3)
-    })
-  })
-})
+      expect(c.container.querySelector('error-msg')).toBeDefined();
+      expect(c.queryByTestId('cat-link')).toBeNull();
+      expect(axios.get).toHaveBeenCalledTimes(3);
+    });
+  });
+});
