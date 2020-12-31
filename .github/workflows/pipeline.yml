@@ -1,0 +1,45 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: npm install
+        run: npm install
+      - name: build
+        run: npm run build
+      - name: test
+        run: npm run test
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.8.8
+        if: ${{ github.event_name == 'push' }}
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'cat-facts-frontend'
+          heroku_email: 'laurilasonja@gmail.com'
+          healthcheck: 'https://cat-facts-frontend.herokuapp.com/'
+          delay: 5
+          rollbackonhealthcheckfailed: true
+
+      - uses: actions/checkout@v2
+        if: github.event_name == 'push' && contains(join(github.event.commits.*.message ,''), '#skip') == false
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
+        if: github.event_name == 'push' && contains(join(github.event.commits.*.message ,''), '#skip') == false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
